@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Gallery</title>
+    <style>
+      #gallery {
+       display: flex;
+       flex-direction: column;
+      }
+      .image-container {
+        margin: 5px;
+        text-align: center;
+      }
+      img{
+        width: 400px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Gallery</h1>
+    <div id="gallery"></div>
+
+    <script>
+      // Fetch the images from the backend API
+      const url = "http://localhost:3000";
+      fetch(`${url}/images`)
+        .then((response) => response.json())
+        .then((images) => {
+          const gallery = document.getElementById("gallery");
+          images.forEach((image) => {
+            console.log(url + image.imageUrl);
+            const imageDiv = document.createElement("div");
+            imageDiv.classList.add("image-container");
+
+            const img = document.createElement("img");
+            img.src = url + image.imageUrl;
+            img.alt = url + image.imageUrl;
+
+            const title = document.createElement("h3");
+            title.textContent = image.title;
+
+            const description = document.createElement("p");
+            description.textContent = image.description;
+
+            imageDiv.appendChild(img);
+            imageDiv.appendChild(title);
+            imageDiv.appendChild(description);
+
+            gallery.appendChild(imageDiv);
+          });
+        })
+        .catch((error) => console.error("Error fetching images:", error));
+    </script>
+  </body>
+</html>
